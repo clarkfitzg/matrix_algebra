@@ -4,16 +4,20 @@ Perform gram-schmidt orthonormalization on a matrix
 
 import numpy as np
 import numba
-from numpy.linalg import norm
+from numpy.linalg import norm, LinAlgError
 
 
-def gs_normal(m):
+def gs_normal(m, epsilon=1e-8):
     '''
     Use gram-schmidt for orthonormalization
     Return a matrix whose columns are orthonormal
     '''
-    n = m.shape[1]  # Number of column vectors
+    # n is the number of columns  
+    n = m.shape[1]
     for i in range(n):
+        # Detect singular matrix
+        if norm(m[:, i]) < epsilon:
+            raise LinAlgError('Singular matrix')
         # Normalize the ith column
         m[:, i] = m[:, i] / norm(m[:, i])
         for j in range(i + 1, n):
@@ -67,6 +71,13 @@ if __name__ == '__main__':
     
     print '\n Lengths of the vectors should be near 1:'
     print norm(m, axis=0)
+
+    try:
+        gs_normal(np.random.randn(3, 4))
+        print 'Test fail- singular matrix not detected'
+    except LinAlgError:
+        print '\n Test pass- Singular matrix detected'
+
     
     # For speed testing
     # %timeit gs_normal(m10)
