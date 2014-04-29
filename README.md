@@ -13,3 +13,5 @@ Reviewing Matrix Algebra: Theory, Computations, and Applications in Statistics b
 -16wk: Lab 6
 -18wk: Lab 7
 -20wk: final
+
+taeyen apr 28 monday 8:50
