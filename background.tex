@@ -1,0 +1,40 @@
+% A simple template for LaTeX documents
+
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+
+
+\begin{document}
+
+
+\begin{description}
+
+\item[Covariance] - Measures how much two random variables change together. We use $N - 1$ to estimate because of Bessel's correction (think degrees of freedom). The real purpose is to build up more interpretable measures like Standard Deviation and correlation.
+\[
+    \Cov(X,Y) = \E[(X - \E[X])(Y - \E[Y])] \approx
+    \frac{1}{N - 1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})
+\]
+
+\item[Variance] - Measures the spread of a random variable. $\Var(X) = \Cov(X,X)$
+
+\item[Standard Deviation] - Measures how close data points are to the mean. This is where the term \emph{six sigma} comes from.
+\[
+    \sigma_X = \sqrt{\Var(X)} \approx 
+    \sqrt{\frac{1}{N-1} \sum_{i=1}^N(x_i - \bar{x})^2}
+\]
+
+\item[Correlation] specifically, the Pearson product-moment correlation coefficient, which detects linear relationships between vectors. The value is between -1 and 1. Observe how the units cancel.
+\[
+    \Corr(X,Y) = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y}
+\]
+
+\end{description}
+
+
+\end{document}
