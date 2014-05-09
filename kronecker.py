@@ -1,15 +1,26 @@
 '''
-Some general operations with vectors and matrices
-From chapters 2 and 3 of Matrix Algebra
+Exploring properties of the Kronecker product
 '''
 
 import numpy as np
 
 a = np.random.randint(6, size=(3, 4))
-b = np.random.randint(6, size=(3, 4))
+b = np.random.randint(6, size=(2, 3))
 
-print '\n a = \n', a
-print '\n b = \n', b
+
+def mprint(a):
+    '''
+    Prints a matrix 
+
+    Input string with variable name
+    '''
+    print('\n {} = '.format(a))
+    print(eval(a, globals()))
+
+
+mprint('a')
+mprint('b')
+
 
 def kronecker_prod(A, B):
     '''
@@ -22,3 +33,9 @@ def kronecker_prod(A, B):
 
 axb = kronecker_prod(a, b)
 print '\n Kronecker Product axb = \n', axb
+
+
+# For inverses need square full rank matrices
+
+a2 = np.array([[1, 0], [1, 1]])
+b2 = np.array([[2, 3], [1, 7]])
