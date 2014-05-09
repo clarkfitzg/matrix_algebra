@@ -55,4 +55,4 @@ try:
 except TypeError:
     print 'pass non-square matrix input'
 
-m10 = np.random.randn((10, 10))
+m10 = np.random.randn(10, 10)

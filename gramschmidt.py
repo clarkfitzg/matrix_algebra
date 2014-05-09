@@ -78,8 +78,6 @@ if __name__ == '__main__':
     except LinAlgError:
         print '\n Test pass- Singular matrix detected'
 
-    print 'Math is fun!'
-    
     # For speed testing
     # %timeit gs_normal(m10)
     m10 = np.random.randn(50, 10)
