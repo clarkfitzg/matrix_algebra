@@ -3,19 +3,10 @@ Exploring properties of the Kronecker product
 '''
 
 import numpy as np
+from utils import mprint
 
 a = np.random.randint(6, size=(3, 4))
 b = np.random.randint(6, size=(2, 3))
-
-
-def mprint(a):
-    '''
-    Prints a matrix 
-
-    Input string with variable name
-    '''
-    print('\n {} = '.format(a))
-    print(eval(a, globals()))
 
 
 mprint('a')
