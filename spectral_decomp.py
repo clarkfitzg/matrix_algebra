@@ -3,7 +3,11 @@ Exploring the spectral decomposition for matrices
 '''
 
 import numpy as np
-from utils import lazy_property 
+import toolz
+
+
+# Cache expensive eigen calculations
+eigh = toolz.memoize(np.linalg.eigh)
 
 
 class sym_matrix(np.ndarray):
@@ -13,8 +17,8 @@ class sym_matrix(np.ndarray):
 
     def __new__(cls, input_array):
         m = np.asarray(input_array)
-        if m.shape[0] != m.shape[1] or len(m.shape) != 2:
-            raise ValueError('Matrix must be square')
+        if (m != m.T).any():
+            raise ValueError('Matrix must be symmetric')
         return m.view(cls)
 
 
@@ -24,43 +28,53 @@ class sym_matrix(np.ndarray):
         Generate a random symmetric n x n matrix
         consisting of integers from 0 to maxint.
         '''
-        m = np.random.randint(maxint // 2, size=(3, 3))
+        m = np.random.randint(maxint // 2, size=(n, n))
         m = m + m.T     # Now m is symmetric
         return sym_matrix(m)
 
 
-    #@lazy_property
-    def eigh(self):
+    # Why is this returning an instance of the parent class sym_matrix?
+    @property
+    def eigvec(self):
         '''
-        Compute eigenvalues and eigenvectors on an instance of sym_matrix
+        Eigenvectors associated with matrix
         '''
-        print('Calculating Eigenvectors')
-        #return np.linalg.eigh(self)
-        self.eigval, self.eigvec = np.linalg.eigh(self)
-        # Very strange- it's subclassing self.eigvec as sym_matrix
+        return eigh(self)[1]
+
+
+    @property
+    def eigval(self):
+        '''
+        Eigenvalues associated with matrix
+        '''
+        return eigh(self)[0]
 
 
 a = sym_matrix.rand()
 
 print a
 
-print('\n The matrices sum to the identity:')
+#print('\n The matrices sum to the identity:')
+
+projectors = [np.outer(vector, vector) for vector in a.eigvec]
+
+
 
 ############################################################
-
-t1 = np.random.randn(2, 3)
-
-try:
-    sym_matrix(t1)
-    print('fail non-square input')
-except ValueError:
-    print('pass non-square input')
-
-t2 = np.random.randn(3, 3, 3)
-
-
-try:
-    sym_matrix(t2)
-    print('fail high dimension input')
-except ValueError:
-    print('pass high dimension input')
+#
+#t1 = np.random.randn(2, 3)
+#
+#try:
+#    sym_matrix(t1)
+#    print('fail non-square input')
+#except ValueError:
+#    print('pass non-square input')
+#
+#t2 = np.random.randn(3, 3, 3)
+#
+#
+#try:
+#    sym_matrix(t2)
+#    print('fail high dimension input')
+#except ValueError:
+#    print('pass high dimension input')
