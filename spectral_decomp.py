@@ -2,19 +2,22 @@
 Exploring the spectral decomposition for matrices
 '''
 
+from itertools import imap
 import numpy as np
 import toolz
+import utils
 
 
-# Cache expensive eigen calculations
+# Implement caching
 eigh = toolz.memoize(np.linalg.eigh)
 
 
-class sym_matrix(np.ndarray):
+class sym_matrix(np.matrix):
     '''
     Class for real symmetric matrices
     '''
 
+    # Rewrite this to __init__
     def __new__(cls, input_array):
         m = np.asarray(input_array)
         if (m != m.T).any():
@@ -33,13 +36,12 @@ class sym_matrix(np.ndarray):
         return sym_matrix(m)
 
 
-    # Why is this returning an instance of the parent class sym_matrix?
     @property
     def eigvec(self):
         '''
         Eigenvectors associated with matrix
         '''
-        return eigh(self)[1]
+        return list(np.transpose(eigh(self)[1]))
 
 
     @property
@@ -47,18 +49,39 @@ class sym_matrix(np.ndarray):
         '''
         Eigenvalues associated with matrix
         '''
-        return eigh(self)[0]
+        return list(eigh(self)[0])
+
+
+    @property
+    @toolz.memoize
+    def projectors(self):
+        '''
+        Spectral projectors - 
+        outer product of each eigenvector
+        '''
+        print '\n*** EVALUATING PROJECTOR FUNCTION ***\n'
+        return [np.outer(v, v) for v in self.eigvec]
+
+
+    @property
+    @toolz.memoize
+    def spec_decomp(self):
+        '''
+        Return matrix calculated as spectral decomposition
+        '''
+        mapper = imap(np.multiply, self.eigval, self.projectors)
+        return sum(mapper)
 
 
 a = sym_matrix.rand()
 
 print a
 
-#print('\n The matrices sum to the identity:')
+print '\n The sum of the spectral projectors is:'
+print sum(a.projectors)
 
-projectors = [np.outer(vector, vector) for vector in a.eigvec]
-
-
+print '\n Expressing a as the spectral decomposition:\n'
+print a.spec_decomp
 
 ############################################################
 #
