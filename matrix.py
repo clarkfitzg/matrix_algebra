@@ -2,8 +2,8 @@
 In this module we explore linear algebra using Python
 following the text 'Matrix Algebra' by James Gentle.
 
-Functions which have a Numpy equivalent are named Xfunc,
-where func is the name of the function in Numpy.
+Functions which have an equivalent in the Numpy stack are 
+named Xfunc, where func is the name of the equivalent function. 
 '''
 
 
@@ -55,6 +55,28 @@ def Xnormalize(x):
 
     """
     return x / np.linalg.norm(x)
+
+
+def matrixij(shape, ij):
+    """Returns an array with 1 in position i, j, and zeros elsewhere
+
+    >>> matrixij((2, 3), (0, 1))
+    array([[0, 1, 0],
+           [0, 0, 0]])
+
+    """
+    m = np.zeros(shape, dtype=int)
+    m[ij] = 1
+    return m
+
+
+def matrixbasis(n, m):
+    """Returns a basis set for n x m vector space of matrices
+
+    >>> matrixbasis(1, 2)
+    set(matrix([[ 1, 0]], matrix([[ 0, 1]]))
+
+    """
 
 
 if __name__ == '__main__':
