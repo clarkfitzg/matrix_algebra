@@ -17,3 +17,13 @@ Posting photos of paper solutions on [Flickr](https://www.flickr.com/photos/1240
 -20wk: final
 
 taeyen apr 28 monday 8:50
+
+### Goals
+
+1. Learn linear algebra
+2. Become more familiar with Numpy
+3. Develop library of utilities for manipulating matrices / arrays
+4. Create educational examples to refer back to later
+5. Learn general Python programming techniques
+
+What structure will best support these goals? For the library of utilities it makes sense to have a single tested module with minimal dependencies. For the learning part I'm considering Ipython notebook. That's the most accessible way to expose other people to Python for scientific computing. It also allows us to capture notes, graphs, and LaTeX.
