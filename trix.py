@@ -3,6 +3,7 @@ trix.py
 
 Utility functions for working with matrices in Numpy
 
+Clark Fitzgerald
 '''
 
 
@@ -27,7 +28,7 @@ def matrixij(shape, ij):
 
 
 def matrixbasis(n, m):
-    """Returns a generator for a basis set for an vector space of n x m matrices
+    """Generates a basis for a vector space of n x m matrices
 
     >>> basis = matrixbasis(1, 2)
     >>> basis.next()
@@ -40,23 +41,6 @@ def matrixbasis(n, m):
         for j in xrange(m):
             # Converting to matrix since matrix is hashable
             yield np.matrix(matrixij((n, m), (i, j)))
-
-
-def mprint(a):
-    '''
-    Prints a matrix 
-
-    Input string with variable name
-
-    >>> m = np.matrix([[math.pi, 0, 23]])
-    >>> mprint(m)
-
-     m = matrix[[3.141, 0, 23]]
-    
-    '''
-    print('\n {} = '.format(a))
-    print(eval(a, globals()))
-
 
 
 if __name__ == '__main__':
