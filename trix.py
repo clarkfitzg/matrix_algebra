@@ -10,8 +10,22 @@ Clark Fitzgerald
 from __future__ import division
 import math
 import itertools
+import functools
 import numpy as np
 
+
+# TODO Change repr
+def replicate(n, func, *args, **kwargs):
+    '''
+    Returns an iterator calling func n times.
+    Similar to replicate in the R language.
+
+    >>> list(replicate(3, pow, 2, 2))
+    [4, 4, 4]
+
+    '''
+    pfunc = functools.partial(func, *args, **kwargs)
+    return itertools.islice(iter(pfunc, None), n)
 
 
 def matrixij(shape, ij):
@@ -30,16 +44,13 @@ def matrixij(shape, ij):
 def matrixbasis(n, m):
     """Generates a basis for a vector space of n x m matrices
 
-    >>> basis = matrixbasis(1, 2)
-    >>> basis.next()
-    matrix([[1, 0]])
-    >>> basis.next()
-    matrix([[0, 1]])
+    >>> list(matrixbasis(1, 2))
+    [matrix([[1, 0]]), matrix([[0, 1]])]
 
     """
     for i in xrange(n):
         for j in xrange(m):
-            # Converting to matrix since matrix is hashable
+            # Using matrix over array since matrix is hashable
             yield np.matrix(matrixij((n, m), (i, j)))
 
 
