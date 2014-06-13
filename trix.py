@@ -25,7 +25,7 @@ def replicate(n, func, *args, **kwargs):
 
     '''
     pfunc = functools.partial(func, *args, **kwargs)
-    return itertools.islice(iter(pfunc, None), n)
+    return itertools.islice(iter(pfunc, 'NoSentinel'), n)
 
 
 def matrixij(shape, ij):
@@ -48,8 +48,8 @@ def matrixbasis(n, m):
     [matrix([[1, 0]]), matrix([[0, 1]])]
 
     """
-    for i in xrange(n):
-        for j in xrange(m):
+    for i in range(n):
+        for j in range(m):
             # Using matrix over array since matrix is hashable
             yield np.matrix(matrixij((n, m), (i, j)))
 
