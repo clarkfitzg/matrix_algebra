@@ -50,8 +50,14 @@ def matrixbasis(n, m):
     """
     for i in range(n):
         for j in range(m):
-            # Using matrix over array since matrix is hashable
-            yield np.matrix(matrixij((n, m), (i, j)))
+            yield matrixij((n, m), (i, j))
+
+
+def check_orthonormal(A):
+    '''
+    Return true if matrix A is numerically orthonormal
+    '''
+    return np.allclose(A.dot(A.T), np.eye(A.shape[0]))
 
 
 if __name__ == '__main__':
