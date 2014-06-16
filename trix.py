@@ -25,7 +25,8 @@ def replicate(n, func, *args, **kwargs):
 
     '''
     pfunc = functools.partial(func, *args, **kwargs)
-    return itertools.islice(iter(pfunc, 'NoSentinel'), n)
+    for i in range(n):
+        yield pfunc()
 
 
 def matrixij(shape, ij):
